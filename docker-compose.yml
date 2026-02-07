@@ -4,6 +4,8 @@ services:
     ports:
       - "3007:3000"
     restart: unless-stopped
+    volumes:
+      - ./youtube_cookies.txt:/app/youtube_cookies.txt:ro
     deploy:
       resources:
         limits:

@@ -19,10 +19,16 @@ export async function POST(request: NextRequest) {
 
     console.log("Using yt-dlp path:", ytDlpPath);
 
+    const cookiesPath = process.platform === "win32" ? "" : "/app/youtube_cookies.txt";
+    const cookiesArgs = cookiesPath ? ["--cookies", cookiesPath] : [];
+
     const getTitle = spawn(ytDlpPath, [
       url,
       "--print", "title",
       "--no-playlist",
+      "--no-check-certificates",
+      "--geo-bypass",
+      ...cookiesArgs,
       "--user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     ]);
     let title = "audio";
@@ -62,6 +68,9 @@ export async function POST(request: NextRequest) {
       "--output",
       "-",
       "--no-playlist",
+      "--no-check-certificates",
+      "--geo-bypass",
+      ...cookiesArgs,
       "--user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     ]);
 
