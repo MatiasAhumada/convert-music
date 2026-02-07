@@ -20,13 +20,15 @@ export default function Home() {
       return;
     }
 
+    const cleanUrl = url.split('&')[0].split('?list=')[0];
+
     setLoading(true);
     setError('');
 
     try {
       const response = await axios.post(
         '/api/download',
-        { url },
+        { url: cleanUrl },
         {
           responseType: 'blob',
           timeout: YOUTUBE_CONSTANTS.TIMEOUT,

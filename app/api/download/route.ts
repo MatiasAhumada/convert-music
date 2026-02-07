@@ -15,7 +15,9 @@ export async function POST(request: NextRequest) {
     const ytDlpPath =
       process.platform === "win32"
         ? "C:\\Users\\Matias\\AppData\\Local\\Microsoft\\WinGet\\Packages\\yt-dlp.yt-dlp_Microsoft.Winget.Source_8wekyb3d8bbwe\\yt-dlp.exe"
-        : "yt-dlp";
+        : "/usr/local/bin/yt-dlp";
+
+    console.log('Using yt-dlp path:', ytDlpPath);
 
     const getTitle = spawn(ytDlpPath, [url, "--get-title"]);
     let title = "audio";
@@ -31,6 +33,7 @@ export async function POST(request: NextRequest) {
           .replace(/[^a-z0-9\s]/gi, "_")
           .replace(/\s+/g, "_")
           .substring(0, 50);
+        console.log('Video title:', cleanTitle || 'audio');
         if (cleanTitle) {
           title = cleanTitle;
         }
