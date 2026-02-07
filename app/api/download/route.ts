@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
 
     console.log('Using yt-dlp path:', ytDlpPath);
 
-    const getTitle = spawn(ytDlpPath, [url, "--get-title"]);
+    const getTitle = spawn(ytDlpPath, [url, "--print", "title", "--no-playlist"]);
     let title = "audio";
 
     await new Promise<void>((resolve, reject) => {
