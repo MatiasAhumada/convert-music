@@ -17,9 +17,9 @@ export async function POST(request: NextRequest) {
         ? "C:\\Users\\Matias\\AppData\\Local\\Microsoft\\WinGet\\Packages\\yt-dlp.yt-dlp_Microsoft.Winget.Source_8wekyb3d8bbwe\\yt-dlp.exe"
         : "/usr/local/bin/yt-dlp";
 
-    console.log('Using yt-dlp path:', ytDlpPath);
+    console.log("Using yt-dlp path:", ytDlpPath);
 
-    const getTitle = spawn(ytDlpPath, [url, "--print", "title", "--no-playlist"]);
+    const getTitle = spawn(ytDlpPath, [url, "--print", "title", "--no-playlist", "--extractor-args", "youtube:player_client=android"]);
     let title = "audio";
 
     await new Promise<void>((resolve, reject) => {
@@ -33,14 +33,14 @@ export async function POST(request: NextRequest) {
       });
       getTitle.on("close", () => {
         if (errorData) {
-          console.log('yt-dlp stderr:', errorData);
+          console.log("yt-dlp stderr:", errorData);
         }
         const cleanTitle = titleData
           .trim()
           .replace(/[^a-z0-9\s]/gi, "_")
           .replace(/\s+/g, "_")
           .substring(0, 50);
-        console.log('Video title:', cleanTitle || 'audio');
+        console.log("Video title:", cleanTitle || "audio");
         if (cleanTitle) {
           title = cleanTitle;
         }
@@ -49,7 +49,17 @@ export async function POST(request: NextRequest) {
       getTitle.on("error", () => resolve());
     });
 
-    const ytDlp = spawn(ytDlpPath, [url, "--extract-audio", "--audio-format", "mp3", "--output", "-", "--no-playlist"]);
+    const ytDlp = spawn(ytDlpPath, [
+      url,
+      "--extract-audio",
+      "--audio-format",
+      "mp3",
+      "--output",
+      "-",
+      "--no-playlist",
+      "--extractor-args",
+      "youtube:player_client=android",
+    ]);
 
     const readableStream = new ReadableStream({
       async start(controller) {

@@ -1,11 +1,6 @@
 FROM node:20-alpine AS base
 
-RUN apk add --no-cache python3 py3-pip ffmpeg curl unzip libgcc libstdc++
-
-RUN curl -fsSL https://github.com/denoland/deno/releases/latest/download/deno-x86_64-unknown-linux-gnu.zip -o deno.zip && \
-    unzip deno.zip -d /usr/local/bin && \
-    rm deno.zip && \
-    chmod +x /usr/local/bin/deno
+RUN apk add --no-cache python3 py3-pip ffmpeg
 
 RUN wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O /usr/local/bin/yt-dlp && \
     chmod a+rx /usr/local/bin/yt-dlp
