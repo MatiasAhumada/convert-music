@@ -20,7 +20,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
-            cd convertidor
+            cd convert-music
             git pull origin main
             docker compose down
             docker compose build --no-cache
