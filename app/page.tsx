@@ -33,11 +33,15 @@ export default function Home() {
         }
       );
 
+      const filename = response.headers['content-disposition']
+        ?.split('filename="')[1]
+        ?.split('"')[0] || 'audio.mp3';
+
       const blob = new Blob([response.data], { type: 'audio/mpeg' });
       const downloadUrl = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = downloadUrl;
-      link.download = 'audio.mp3';
+      link.download = filename;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -76,7 +80,7 @@ export default function Home() {
             onChange={(e) => setUrl(e.target.value)}
             placeholder="https://youtube.com/watch?v=..."
             disabled={loading}
-            className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed text-gray-800"
           />
 
           <button
