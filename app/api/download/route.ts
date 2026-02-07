@@ -12,6 +12,8 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { url } = requestSchema.parse(body);
 
+    process.env.YOUTUBE_DL_PATH = process.platform === "win32" ? "C:\\Windows\\yt-dlp.exe" : "/usr/local/bin/yt-dlp";
+
     const stream = youtubedl.exec(url, {
       extractAudio: true,
       audioFormat: "mp3",
