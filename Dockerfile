@@ -1,6 +1,9 @@
 FROM node:20-alpine AS base
 
-RUN apk add --no-cache python3 py3-pip ffmpeg
+RUN apk add --no-cache python3 py3-pip ffmpeg curl unzip
+
+RUN curl -fsSL https://deno.land/install.sh | sh && \
+    mv /root/.deno/bin/deno /usr/local/bin/deno
 
 RUN wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O /usr/local/bin/yt-dlp && \
     chmod a+rx /usr/local/bin/yt-dlp
