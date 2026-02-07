@@ -24,10 +24,17 @@ export async function POST(request: NextRequest) {
 
     await new Promise<void>((resolve, reject) => {
       let titleData = "";
+      let errorData = "";
       getTitle.stdout?.on("data", (chunk: Buffer) => {
         titleData += chunk.toString();
       });
+      getTitle.stderr?.on("data", (chunk: Buffer) => {
+        errorData += chunk.toString();
+      });
       getTitle.on("close", () => {
+        if (errorData) {
+          console.log('yt-dlp stderr:', errorData);
+        }
         const cleanTitle = titleData
           .trim()
           .replace(/[^a-z0-9\s]/gi, "_")
