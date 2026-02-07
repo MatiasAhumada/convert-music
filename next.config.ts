@@ -6,9 +6,6 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '10mb',
     },
   },
-  api: {
-    responseLimit: false,
-  },
   output: 'standalone',
 };
 
